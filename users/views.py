@@ -11,6 +11,7 @@ from .models import User
 
 from .forms import CreateUserForm, EmployerProfileForm, LoginEmployer
 from .tokens import account_activation_token
+from .decorators import employer_required
 
 @transaction.atomic
 def registerEmployer(request):
@@ -66,9 +67,10 @@ def activate(request, uidb64, token):
     else:
         return render(request, 'account_activation_invalid.html')
 
-
+@employer_required()
 def employer_dashboard_view(request):
     return render(request, 'users/employerDashboard.html', {'title':"Employer Dashboard"})
+
 
 def employer_login_view(request):
     if request.method=='POST':
