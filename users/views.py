@@ -4,12 +4,12 @@ from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_encode
 from django.utils.http import urlsafe_base64_decode
 from django.template.loader import render_to_string
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.db import transaction
 from django.shortcuts import render, redirect
 from .models import User
 
-from .forms import CreateUserForm, EmployerProfileForm
+from .forms import CreateUserForm, EmployerProfileForm, LoginEmployer
 from .tokens import account_activation_token
 
 @transaction.atomic
@@ -69,3 +69,24 @@ def activate(request, uidb64, token):
 
 def employer_dashboard_view(request):
     return render(request, 'users/employerDashboard.html', {'title':"Employer Dashboard"})
+
+def employer_login_view(request):
+    if request.method=='POST':
+        login_form = LoginEmployer(request.POST)
+        if login_form.is_valid():
+            email = login_form.cleaned_data.get('email')
+            password=login_form.cleaned_data.get('password')
+            user = authenticate(request, email=email, password=password)
+            print(user)
+            if user is not None:
+                login(request, user)
+                return redirect('dashboard')
+    else:
+        login_form = LoginEmployer(request.POST)
+    return render(request, 'users/employerLogin.html', {
+        'form':login_form
+    })
+
+def logout_employer_view(request):
+    logout(request)
+    return redirect('employerLogin')
