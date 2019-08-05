@@ -44,3 +44,16 @@ class EmployerProfileForm(forms.ModelForm):
             raise forms.ValidationError('phone is required')
         return phone
     
+class LoginEmployer(forms.Form):
+    email = forms.EmailField(widget=forms.EmailInput(), required=True)
+    password =forms.CharField(widget=forms.PasswordInput(), required=True)
+    class Meta:
+        model= User
+        fields=('email', 'password', )
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if not email:
+            raise forms.ValidationError('email is required')
+        return email
+
