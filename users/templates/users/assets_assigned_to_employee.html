@@ -1,0 +1,43 @@
+
+{% extends 'users/employeeDashboard.html' %}
+
+{% block employeeDashboard %}
+
+<div class="row pt-4 pb-2">
+  <div class="col-12 col-md-7 mx-auto">
+      <div class="card text-center">
+          <div class="card-header text-center employee-table-info">
+            <h1>Assets Assigned to me</h1>
+          </div>
+          <div class="card-body">
+              <div class="table-responsive">
+              <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Serial NO</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    
+                    {% for asset in assets %}
+                    <tr>
+                          <th scope="row">{{forloop.counter}}</th>
+                          <td>{{asset.title|title}}</td>
+                          <td>{{asset.slug|default_if_none:"--"|upper}}</td>
+                        </tr>
+                    {% endfor %}
+                        
+                  </tbody>
+                </table>
+                </div>
+          </div>
+        </div>
+  </div>
+</div>
+
+
+
+{% endblock employeeDashboard %}
+    

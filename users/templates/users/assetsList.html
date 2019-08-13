@@ -1,0 +1,43 @@
+{% extends 'users/employerDashboard.html' %}
+
+
+{% block dashboard %}
+<div class="row pt-5">
+  <div class="col-12 col-md-8 mx-auto">
+      <div class="card ">
+          <div class="card-header text-center employee-table-info">
+            <h1>Assets</h1>
+          </div>
+          <div class="card-body">
+              <div class="table-responsive">
+              <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Serial No.</th>
+                      <th scope="col">Responsible</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    
+                    {% for asset in assets %}
+                    <tr>
+                      <th scope="row">{{forloop.counter}}</th>
+                      <td>{{asset.title}}</td>
+                      <td>{{asset.slug|upper}}</td>
+                      <td>{{asset.employee|default_if_none:"--"|title}}</td>
+                    </tr>
+                    {% endfor %}
+                        
+                  </tbody>
+                </table>
+                </div>
+          </div>
+        </div>
+  </div>
+</div>
+
+    
+{% endblock dashboard %}
+    

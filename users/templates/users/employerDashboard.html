@@ -1,13 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>DashBoard</title>
-</head>
-<body>
-    <h1>this is dashboard</h1>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+        <div class="col-md-2 sideNavBar sticky-top">
+            <div class="row">
+                <div class="col">
+                    <div class="dashboardContainer">
+                        <div class="title">
+                            <p> Dashboard</p>
+                        </div>
+                        <div class="dashboardNav">
+                            <ul> 
+                                   
+                                <li><a href="{% url 'employeeList' %}"><i class="fa fa-users"></i> Employees</a></li>
+                                <li><a href="{% url 'createEmployee' %}"><i class="fa fa-user-plus"></i> Add Employee</a></li>
+                                <li><a href="{% url 'assetsList' %}"><i class="fa fa-briefcase"></i> Assets</a></li>
+                                <li><a href="{% url 'addAsset' %}"><i class="fa fa-plus-square"></i> Assign Assets</a></li>
+                                <li><a href=""> <i class="fa fa-bell"></i> Notifications</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-10">
+           
+           {% block dashboard %}
+
+           {% include 'users/snippets/basic_info.html' %}
+               
+           {% endblock dashboard %}
+               
+        </div>
+    </div>
+{% endblock content %}
     
-</body>
-</html>
+    

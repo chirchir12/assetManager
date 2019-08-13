@@ -1,0 +1,87 @@
+{% extends 'users/employerDashboard.html' %}
+{% load widget_tweaks %}
+
+
+{% block dashboard %}
+  <div class="row pt-5 adding_employee">
+    <div class="col-12 col-md-7 mx-auto">
+        {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} alert-dismissible" role="alert">{{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    <div class="card">
+      <div class="card-header text-center card-header-title">
+        Add Employee
+      </div>
+      <div class="card-body">
+    
+          <form method="post" novalidate>
+              {% csrf_token %}
+              {% for field in name_form.visible_fields %}
+                <div class="form-group">
+                  {{ field.label_tag }}
+            
+                  {% if name_form.is_bound %}
+                    {% if field.errors %}
+                      {% render_field field class="form-control is-invalid" %}
+                      {% for error in field.errors %}
+                        <div class="invalid-feedback">
+                          {{ error }}
+                        </div>
+                      {% endfor %}
+                    {% else %}
+                      {% render_field field class="form-control is-valid" %}
+                    {% endif %}
+                  {% else %}
+                    {% render_field field class="form-control" %}
+                  {% endif %}
+            
+                  {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                  {% endif %}
+                </div>
+              {% endfor %}
+                
+                  {% for field in email_form.visible_fields %}
+                    <div class="form-group">
+                      {{ field.label_tag }}
+                
+                      {% if email_form.is_bound %}
+                        {% if field.errors %}
+                          {% render_field field class="form-control is-invalid" %}
+                          {% for error in field.errors %}
+                            <div class="invalid-feedback">
+                              {{ error }}
+                            </div>
+                          {% endfor %}
+                        {% else %}
+                          {% render_field field class="form-control is-valid" %}
+                        {% endif %}
+                      {% else %}
+                        {% render_field field class="form-control" %}
+                      {% endif %}
+                
+                      {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                      {% endif %}
+                    </div>
+                  {% endfor %}
+    
+                  <div class="form-group">
+                      <button type="submit" class="btn btn-block formButton">
+                        <span class="glyphicon glyphicon-ok"></span> Save
+                      </button>
+          </form>
+        
+      </div>
+    </div>
+    </div>
+  </div>
+{% endblock dashboard %}
+    

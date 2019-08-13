@@ -1,0 +1,35 @@
+{% url 'home' as home %}
+{% url 'employerdashboard' as employerdashboard %}
+{% url 'employeedashboard' as employeedashboard %}
+{% url 'logout' as logout %}
+
+  <nav class="navbar navbar-expand-md">
+      <a class="navbar-brand" href="{{home}}">HR System</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+          <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                  <a class="nav-link" href="{{home}}">Home</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="{% if request.user.is_employer %} {{employerdashboard}} {% else %} {{employeedashboard}} {% endif %} ">Dashboard</a>
+              </li>
+          </ul>
+      </div> 
+      <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">         
+          <ul class="navbar-nav ml-auto">          
+            {% if request.user %}
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                            <a class="nav-link" href="#">{{request.user}}</a>
+                        </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{logout}}">logout</a>
+                    </li>
+                {% endif %}
+            {% endif %}   
+          </ul>
+      </div>
+  </nav>

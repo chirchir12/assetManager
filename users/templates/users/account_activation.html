@@ -1,7 +1,17 @@
 {% autoescape off %}
     Hi {{ user.email }},
+    
+    {% if user.is_employer %}
+    Thank you for Registering..  
+    {% endif %}
+        
+    {% if user.is_employee %}
+    Kindly use {{user.email}} as your email to create new password
+    {% endif %}
 
-    Please click on the link below to confirm your registration:
+    Also, 
+
+    Click on the link below to confirm your registration:
 
     http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
 {% endautoescape %}

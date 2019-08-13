@@ -1,8 +1,10 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.urls import reverse 
 from django.core.mail import send_mail
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save, post_delete
 from django.dispatch import receiver
+from .utils import unique_slug_generator
 
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
@@ -48,6 +50,8 @@ class User(AbstractBaseUser):
     )
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
+    is_employer = models.BooleanField(default=False)
+    is_employee = models.BooleanField(default=False)
 
     objects = MyUserManager()
 
@@ -74,7 +78,7 @@ class User(AbstractBaseUser):
         "Does the user have permissions to view the app `app_label`?"
         # Simplest possible answer: Yes, always
         return True
-        
+
     def email_user(self, subject, message, from_email=None, **kwargs):
         '''
         Sends an email to this User.
@@ -87,48 +91,95 @@ class User(AbstractBaseUser):
         # Simplest possible answer: All admins are staff
         return self.is_admin
 
+
 # employer model
 class Employer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(_('Enter your Fullname'), max_length=255)
-    company= models.CharField(_('The name of your company'), max_length=255)
+    company = models.CharField(_('The name of your company'), max_length=255)
     role = models.CharField(_('Your position in your company'), max_length=255)
-    phone =models.CharField(_('Your phone number'), max_length=20)
-    no_employees= models.CharField(_('select number of employees'), max_length=20)
-    email_confirmed=models.BooleanField(default=False)
+    phone = models.CharField(_('Your phone number'), max_length=20)
+    no_employees = models.CharField(
+        _('select number of employees'), max_length = 20)
+    email_confirmed=models.BooleanField(default = False)
 
-    objects = models.Manager()
+    objects=models.Manager()
 
     def __str__(self):
         return self.company
 
-@receiver(post_save, sender=User)
-def update_employer_profile(sender, instance, created, **kwargs):
-    if created:
-        Employer.objects.create(user=instance)
-    instance.employer.save()
+
+
 
 
 # employee model
 class Employee(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(_('Enter your fullname'), max_length=200, blank=True, null=True)
-    national_id= models.CharField(_('Enter your ID'), null=True, blank=True, max_length=20)
-    dob = models.DateField(_('Date of birth'), null=True, blank=True)
-    phone = models.CharField(_('Enter your Phone number'), max_length=20, null=True, blank=True)
-    pin=models.CharField(_('Enter your KRA Pin'), max_length=100, null=True, blank=True)
-    role = models.CharField(_('Employee role'), null=True, blank=True, max_length=255)
-    email_confirmed=models.BooleanField(default=False)
-    # many to many field
-    assets = models.CharField(_('assigned assets'), null=True, blank=True, max_length=200)
+    user=models.OneToOneField(User, on_delete = models.CASCADE)
+    name=models.CharField(_('Enter your fullname'),
+                            max_length = 200, blank = True, null = True)
+    national_id=models.CharField(
+        _('Enter your ID'), null = True, blank = True, max_length = 20)
+    dob=models.DateField(_('Date of birth'), null = True, blank = True)
+    phone=models.CharField(_('Enter your Phone number'),
+                             max_length = 20, null = True, blank = True)
+    pin=models.CharField(_('Enter your KRA Pin'),
+                           max_length = 100, null = True, blank = True)
+    role=models.CharField(_('Employee role'), null = True,
+                            blank = True, max_length = 255)
+    email_confirmed=models.BooleanField(default = False)
 
-    objects = models.Manager()
+    objects=models.Manager()
+
 
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('update_role', kwargs={'pk': self.pk})
+
+
+
+# assets model
+class Assets(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
+    title=models.CharField(max_length = 100)
+    slug=models.SlugField(unique=True, blank=True)
+
+    objects=models.Manager()
+
+    def __str__(self):
+        return self.title
 
 
 
 
 
+
+
+
+
+
+
+
+# signals
+@receiver(post_save, sender = User)
+def create_Profile(sender, instance, created, **kwargs):
+    if created:
+        if instance.is_employer:
+            Employer.objects.create(user = instance)
+        elif instance.is_employee:
+            Employee.objects.create(user = instance)
+
+
+def asset_pre_save_receiver(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = unique_slug_generator(instance)
+
+
+pre_save.connect(asset_pre_save_receiver, sender=Assets)
+
+@receiver(post_delete, sender = Employee)
+def delete_user(sender, instance, **kwargs):
+    user = instance.user
+    User.objects.get(email=user).delete()
+    
