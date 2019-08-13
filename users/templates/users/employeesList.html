@@ -1,0 +1,67 @@
+{% extends 'users/employerDashboard.html' %}
+
+{% block dashboard %}
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} alert-dismissible" role="alert">{{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<div class="row pt-4">
+  <div class="col-12 col-md-11 mx-auto ">
+
+      <div class="card">
+          <div class="card-header text-center employee-table-info">
+              <h1>Employees Information</h1>
+            </div>
+          <div class="card-body">
+              <div class="table-responsive">
+                  <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Name</th>
+                          <th scope="col">Email</th>
+                          <th scope="col">National ID</th>
+                          <th scope="col">KRA Pin</th>
+                          <th scope="col">Phone</th>
+                          <th scope="col">DOB</th>
+                          <th scope="col">Role</th>
+                          <th scope="col">Edit</th>
+                          <th scope="col">Delete</th>
+                  
+                        </tr>
+                      </thead>
+                      <tbody>
+                        
+                        {% for employee in employees %}
+                        <tr>
+                          <td scope="row">{{forloop.counter}}</td>
+                          <td>{{employee.name|title}}</td>
+                          <td>{{employee.user.email}}</td>
+                          <td>{{employee.national_id|default_if_none:"--"}}</td>
+                          <td>{{employee.pin|default_if_none:"--"|upper}}</td>
+                          <td>{{employee.phone|default_if_none:"--"}}</td>
+                          <td>{{employee.dob|default_if_none:"--"|date}}</td>
+                          <td>{{employee.role|default_if_none:"--"|title}}</td>
+                          <td><a title="Update Role" href="{{employee.get_absolute_url}}"><i class="fa fa-edit"></i></a></td>
+                          <td><a href="{% url 'delete_employee' employee.pk %}"><i class="fa fa-trash"></i></a></td>
+                        </tr>
+                        {% endfor %}
+                            
+                      </tbody>
+                    </table> 
+                  </div> 
+          </div>
+        </div>
+
+
+    
+  </div>
+</div>
+  
+{% endblock dashboard %}

@@ -1,0 +1,199 @@
+body{
+    background-color: #e0e0e0;
+}
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255, 0.7)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+  }
+.navigationBar{
+    background-color: #3e2723;
+} 
+    .navigationBar li{
+        font-size:16px;
+        font-weight: 300;
+    }
+    .navigationBar a{
+        color:white;
+    }
+    .navigationBar a:hover{
+        font-weight: 700;
+        color:white;
+        border-bottom: 1px solid white;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        padding-bottom:3px;
+        transition: 0.4s;
+        
+    }
+
+
+.sideNavBar{
+    height:calc(100vh - 116px);
+    background-color: #6d4c41;
+    box-shadow: 5px 0px 5px  #3e2723;}
+
+    .sideNavBar p, .sideNavBar a{
+        color:white;
+    }
+    .dashboardContainer{
+        margin-top:20%;
+    }
+    .dashboardContainer .title p{
+        font-size: 1.6em;
+        font-weight: 700;
+        text-align: center;
+        border-bottom: 2px solid white;
+        margin: 0;
+        padding-bottom: 2px;
+
+    }
+    .dashboardNav ul{
+        margin:0;
+        padding:0;
+        list-style: none;
+        text-align: center;
+    }
+    .dashboardNav ul li{
+        margin-top:35px;
+        margin-bottom:30px;
+        font-size:1em;
+        font-weight: 100;
+    }
+        .dashboardNav ul li a{
+            text-decoration: none;
+        
+        }
+        .dashboardNav ul li a:hover{
+            color:inherit;
+        
+        }
+
+        .dashboardNav ul li:hover{
+            background-color: #3e2723;
+            color:white;
+            padding:10px 5px;;
+            border-bottom-right-radius: 50px;
+            border-top-left-radius: 50px;
+            font-weight: 900;
+            font-size: 1em;
+            transition: 0.3s;
+
+        
+        }
+
+.footer{
+    background-color:#3e2723;
+    width: 100%;
+}
+    .footer .copyrightinfo p{
+        text-align: center;
+        padding-top:20px;
+        color:white;
+    }
+    .footer .copyrightinfo a{
+        color:white;
+        font-style: italic;
+        font-size:14px;
+    }
+    .footer .copyrightinfo a:hover{
+        color:white;
+        font-weight: 400;
+        transition:0.4sec;
+    }
+
+.loginformContoller{
+    height:calc(30rem - 16px);
+}
+.loginformContoller .index{
+    background-image:linear-gradient(to top, rgb(255, 255, 254, .2), rgb(254, 255, 255, .4)), url('/static/img/bg1.jpg'); 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    height:22rem;
+}
+.loginformContoller .loginFormContainer{
+    background-color: gray;
+    border-radius: 18px;
+    box-shadow: 5px 5px 5px #616161;
+
+
+    
+}
+.form-label-group{
+    margin-top:10px;
+    }
+    .form-label-group label{
+        color: #3e2723;
+        font-weight: 600;
+        font-size:1em;
+    }
+    .form-control{
+        color:#3e2723;
+    }
+    h5.card-title.text-center.loginform-title{
+        color: #3e2723;
+        font-weight: 600;
+        font-size:1.5em;
+    }
+
+    h5.card-title.text-center.loginform-title.index-title{
+        color: #fff;
+        font-weight: 600;
+        font-size:1.5em;
+    }
+    .formButton{
+        background-color: #6d4c41;
+        color:white;
+    }
+
+
+    .formButton:hover{
+        background-color: #3e2723;
+        color:white;
+        font-weight: 700;
+        transition: 0.4sec;
+    }
+
+
+.employee-table-info>h1{
+    color: #3e2723;
+    text-align: center;
+    font-size: 1.7rem;
+    font-weight: 700
+
+}
+.table-responsive> table th{
+    color: #3e2723;
+    font-size: 1rem;
+    font-weight: 700
+
+}
+
+.adding_employee label{
+    color:#3e2723;
+    
+}
+.card-header.card-header-title{
+    color:#3e2723;
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+
+.dashboard_container{
+    padding: 60px;
+
+}
+.dashboard_container p{
+text-align: center;
+color:#fff;
+font-weight: 700;
+font-size: 1.2rem;
+}
+.dashboard_container p a{
+    text-align: center;
+    color:#fff;
+    font-weight: 700;
+    font-size: 1.2rem;
+    }

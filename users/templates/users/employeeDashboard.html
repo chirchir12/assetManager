@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+        <div class="col-md-2 sideNavBar sticky-top">
+            <div class="row">
+                <div class="col">
+                    <div class="dashboardContainer">
+                        <div class="title">
+                            <p>Dashboard</p>
+                        </div>
+                        <div class="dashboardNav">
+                            <ul> 
+                                <li><a href="{% url 'check_profile' %}"><i class="fa fa-users"></i> Profile</a></li>
+                                <li><a href="{% url 'myassets' %}"><i class="fa fa-briefcase"></i> Assets Assign to You</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-10">
+           
+           {% block employeeDashboard %}
+           {% include 'users/snippets/employee_basic_info.html' %}
+               
+           {% endblock employeeDashboard %}
+               
+        </div>
+    </div>
+{% endblock content %}
+    
+    

@@ -1,0 +1,37 @@
+{% extends 'users/employeeDashboard.html' %}
+
+{% block employeeDashboard %}
+<div class="row pt-4 pb-2">
+  <div class="col-12 col-md-7 mx-auto">
+      {% if messages %}
+      {% for message in messages %}
+          <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} alert-dismissible" role="alert">{{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+      {% endfor %}
+  {% endif %}
+  
+  <div class="card text-center">
+      <div class="card-header ">
+        Profile Information
+      </div>
+      <div class="card-body">
+          <p>Name: {{object.name|title}}</p>
+          <p>Email: {{object.user|default_if_none:"--"}}</p>
+          <p>National ID: {{object.national_id|default_if_none:"--"}}</p>
+          <p>Date of Birth: {{object.dob|default_if_none:"--"|date}}</p>
+          <p>Phone: {{object.phone|default_if_none:"--"}}</p>
+          <p>KRA Pin: {{object.pin|default_if_none:"--"|upper}}</p>
+          <p>Role: {{object.role|default_if_none:"--"|title}}</p>
+          
+      </div>
+      <div class="card-footer text-muted">
+          <p><a href="{% url 'update_profile' %}">Update Your Profile</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock employeeDashboard %}
+    
