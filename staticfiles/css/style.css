@@ -197,3 +197,12 @@ font-size: 1.2rem;
     font-weight: 700;
     font-size: 1.2rem;
     }
+
+.icon{
+    font-size:12px;
+    font-weight: bolder;
+    background-color: #e0e0e0;
+    color:#3e2723;
+    padding:4px;
+    border-radius: 100%;
+}

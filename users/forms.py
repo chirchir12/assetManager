@@ -1,6 +1,7 @@
 from django import forms
 from .admin import UserCreationForm, UserChangeForm
 from .models import User, Employer, Employee, Assets
+from .choices import EMPLOYEES_SIZE
 
 
 class CreateUserForm(UserCreationForm):
@@ -32,8 +33,7 @@ class EmployerProfileForm(forms.ModelForm):
                         widget=forms.TextInput(attrs={'placeholder': 'Your Role e.g Manager'}))
     phone =forms.CharField(max_length=20, 
                         widget=forms.TextInput(attrs={'placeholder': 'Phone No'}))
-    no_employees= forms.CharField(max_length=20, 
-                        widget=forms.TextInput(attrs={'placeholder': 'No of Employees'}))
+    no_employees= forms.ChoiceField(choices=EMPLOYEES_SIZE, help_text='Select size of your employees')
 
     class Meta:
         model = Employer

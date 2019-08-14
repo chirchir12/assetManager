@@ -9,6 +9,7 @@ from .utils import unique_slug_generator
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
+from .choices import EMPLOYEES_SIZE
 
 
 class MyUserManager(BaseUserManager):
@@ -94,13 +95,14 @@ class User(AbstractBaseUser):
 
 # employer model
 class Employer(models.Model):
+    
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(_('Enter your Fullname'), max_length=255)
     company = models.CharField(_('The name of your company'), max_length=255)
     role = models.CharField(_('Your position in your company'), max_length=255)
     phone = models.CharField(_('Your phone number'), max_length=20)
     no_employees = models.CharField(
-        _('select number of employees'), max_length = 20)
+        _('select number of employees'), max_length = 20, choices=EMPLOYEES_SIZE, default=0)
     email_confirmed=models.BooleanField(default = False)
 
     objects=models.Manager()
@@ -153,7 +155,11 @@ class Assets(models.Model):
 
 
 
-
+class Notifications(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    message=models.CharField(max_length=225)
+    created_at=models.DateTimeField(auto_now=True)
+    objects = models.Manager()
 
 
 

@@ -57,6 +57,15 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'config.urls'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+
+PUSHER_APP_ID = '842460'
+PUSHER_API_KEY = 'b8eda2b75c1b1e5efd54'
+PUSHER_SECRET_KEY = '0bdd9f28679144199f8f'
+PUSHER_CLUSTER = 'ap2'
+PUSHER_SSL = True
+
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

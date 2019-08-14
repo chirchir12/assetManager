@@ -10,9 +10,15 @@ from django.contrib import messages
 from django.db import transaction
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.urls import reverse_lazy
-from .models import User, Employee, Assets
+from .models import User, Employee, Assets, Notifications
 from django.views.generic.edit import UpdateView, DeleteView
 from django.views.generic.detail import DetailView
+import datetime
+
+from django.http import JsonResponse, HttpResponseForbidden, Http404
+from django.core import serializers
+
+from . import pusher 
 
 from .forms import (
     CreateUserForm,
@@ -22,11 +28,19 @@ from .forms import (
     CreateEmployeeNameForm,
     EmployeePasswordCreation,
     Create_and_Assign_AssetsForm,
-    EmployeeProfile,
+    EmployeeProfile, 
     UpdateRoleForm
 )
 from .tokens import account_activation_token
 from .decorators import employer_required, employee_required
+
+
+"""
+pusher init
+
+"""
+pusher = pusher.connect()
+
 
 
 def index_view(request):
@@ -170,11 +184,20 @@ def employer_login_view(request):
             password = login_form.cleaned_data.get('password')
             user = authenticate(request, email=email, password=password)
             print(user)
+            
             if user is not None:
                 login(request, user)
                 if user.is_employer:
                     return redirect('employerdashboard')
                 elif user.is_employee:
+                    # 
+                    message = f'{request.user.employee.name} logged in'
+                    data = {'message':message}
+                    
+                    # trigger event 
+                    pusher.trigger('my-channel', 'an-event', data)
+                    notify = Notifications.objects.create(message=message, user =request.user)
+                    notify.save()
                     return redirect('employeedashboard')
 
     else:
@@ -185,7 +208,16 @@ def employer_login_view(request):
 
 
 def logout_employer_view(request):
-    logout(request)
+    
+    if request.user.is_employee:
+        message = f'{request.user.employee.name} logged out'
+        data = {'message':message}
+        
+        # trigger event 
+        pusher.trigger('my-channel', 'an-event', data)
+        notify = Notifications.objects.create(message=message, user =request.user)
+        notify.save()
+        logout(request)
     return redirect('login')
 
 
@@ -253,6 +285,13 @@ def update_profile_view(request):
         if form.is_valid():
             user =form.save()
             if user is not None:
+                message = f'{request.user.employee.name} updated Profile'
+                data = {'message':message}
+                
+                # trigger event 
+                pusher.trigger('my-channel', 'an-event', data)
+                notify = Notifications.objects.create(message=message, user =request.user)
+                notify.save()
                 messages.success(request, 'Profile Updated Successfully')
                 return redirect('check_profile')
             else:
@@ -305,3 +344,14 @@ class DeleteEmployee(DeleteView):
         messages.success(self.request, 'Employee Deleted Successfully')
         return reverse_lazy('employeeList')
     
+def notifications(request):
+    try:
+        notif = Notifications.objects.order_by('-created_at')[:8]
+        newMessage = Notifications.objects.order_by('-created_at')[:1]
+    except:
+        raise Http404("Zero activity")
+    context = {
+        "notify":notif,
+        'new':newMessage
+    }
+    return render(request, 'users/notification.html', context)

@@ -18,7 +18,8 @@ from .views import (
     update_profile_view,
     UpdateRole,
     UserProfileDetailView,
-    DeleteEmployee
+    DeleteEmployee,
+    notifications
     
 
     
@@ -45,7 +46,16 @@ urlpatterns = [
 
     path('users/dashboard/my-assets/', assigned_assets, name='myassets'),
     path('users/dashboard/update', update_profile_view, name='update_profile'),
-    path('users/dashboard/check_profile', UserProfileDetailView.as_view(), name='check_profile')
+    path('users/dashboard/check_profile', UserProfileDetailView.as_view(), name='check_profile'),
+
+
+
+    # notification
+    path('users/messages', notifications, name ="message")
+
+
+
+
 
 
 

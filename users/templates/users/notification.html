@@ -1,0 +1,45 @@
+{% extends 'users/employerDashboard.html' %}
+
+
+{% block dashboard %}
+<div class="row pt-4">
+    <div class="col-12 col-md-6">
+            <div class="card">
+                    <div class="card-header">
+                      New Message
+                    </div>
+                    <div class="card-body new_message_box">
+                      
+                    </div>
+                  </div>
+    </div>
+    <div class="col-12 col-md-6">
+            <div class="card">
+                    <div class="card-header text-center">
+                      Old Messages
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        
+                        {% if notify %}
+                        {% for n in notify %}
+                        <li class="list-group-item">{{n.message}} at {{n.created_at}} </li>
+                        {% endfor %}
+                        {% else %}
+                        <li class="list-group-item">No message</li>
+                        {% endif %}
+                            
+                        
+                            
+                      
+                     
+                    </ul>
+                  </div>
+
+    </div>
+
+</div>
+
+  
+    
+{% endblock dashboard %}
+    
