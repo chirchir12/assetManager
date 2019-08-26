@@ -217,7 +217,7 @@ def logout_employer_view(request):
         pusher.trigger('my-channel', 'an-event', data)
         notify = Notifications.objects.create(message=message, user =request.user)
         notify.save()
-        logout(request)
+    logout(request)
     return redirect('login')
 
 
