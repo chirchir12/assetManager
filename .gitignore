@@ -5,7 +5,7 @@
 __pycache__
 db.sqlite3
 media
-
+Answers_to_technical_questions.txt
 # Backup files # 
 *.bak 
 
