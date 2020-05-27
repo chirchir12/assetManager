@@ -41,10 +41,10 @@ this is an asset management system that help in managing assets in an organizati
 
 ### User logs
 ![screenshot](screenshots/logs.png)
-## Author
 
 ### email activation in terminal
 ![screenshot](screenshots/email.png)
+## Author
 
 ##### follow me on
 
