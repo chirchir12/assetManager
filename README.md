@@ -39,16 +39,12 @@ this is an asset management system that help in managing assets in an organizati
 
 ![screenshot](screenshots/dashboard.png)
 
-### Employee update Profile
-
-![screenshot](screenshots/update.png)
-
 ### User logs
 ![screenshot](screenshots/logs.png)
 ## Author
 
 ### email activation in terminal
-![screenshot](screenshots/logs.png)
+![screenshot](screenshots/email.png)
 
 ##### follow me on
 
